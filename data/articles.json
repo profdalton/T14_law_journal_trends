@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-08-24T06:00:00Z",
+  "note": "SAMPLE DATA \u2014 replace by running scraper/scrape.py, or wait for the first scheduled GitHub Action run.",
+  "articles": [
+    {
+      "title": "Sample: Rethinking Standing in the Administrative State",
+      "authors": "J. Rivera",
+      "journal": "Harvard Law Review",
+      "topic": "Administrative & Regulatory Law",
+      "url": "https://harvardlawreview.org/",
+      "date": "2026-08-18",
+      "snippet": "Placeholder entry \u2014 real data populates this field automatically once the weekly scan runs."
+    },
+    {
+      "title": "Sample: Empirical Patterns in Circuit Splits, 2010\u20132025",
+      "authors": "A. Chen & M. Okafor",
+      "journal": "Yale Law Journal",
+      "topic": "Law & Economics / Empirical Legal Studies",
+      "url": "https://yalelawjournal.org/",
+      "date": "2026-08-15",
+      "snippet": "Placeholder entry \u2014 shows how empirical/quantitative pieces will be tagged and displayed."
+    },
+    {
+      "title": "Sample: Comity and the Limits of Extraterritorial Reach",
+      "authors": "S. Patel",
+      "journal": "Stanford Law Review",
+      "topic": "International & Comparative Law",
+      "url": "https://stanfordlawreview.org/",
+      "date": "2026-08-12",
+      "snippet": "Placeholder entry demonstrating the international law topic bucket."
+    },
+    {
+      "title": "Sample: Data Portability as a First Amendment Problem",
+      "authors": "R. Fischer",
+      "journal": "Columbia Law Review",
+      "topic": "Intellectual Property & Technology Law",
+      "url": "https://columbialawreview.org/",
+      "date": "2026-08-10",
+      "snippet": "Placeholder entry \u2014 tech/IP scholarship bucket."
+    },
+    {
+      "title": "Sample: Pretrial Detention and the Bail Reform Backlash",
+      "authors": "D. Nguyen",
+      "journal": "University of Chicago Law Review",
+      "topic": "Criminal Law & Procedure",
+      "url": "https://lawreview.uchicago.edu/",
+      "date": "2026-08-05",
+      "snippet": "Placeholder entry \u2014 criminal law/procedure bucket."
+    }
+  ]
+}
