@@ -31,6 +31,7 @@ TOPICS_FILE = ROOT / "data" / "topics.json"
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; TheDocketBot/1.0; +https://github.com/)"}
 PRUNE_AFTER_DAYS = 120  # drop articles older than ~4 months to keep the site current
 DRY_RUN = "--dry-run" in sys.argv
+RECLASSIFY = "--reclassify" in sys.argv
 
 
 def load_json(path, default):
@@ -294,6 +295,36 @@ def prune_old(articles):
 def main():
     topics = load_json(TOPICS_FILE, {"topics": []})["topics"]
     existing = load_json(DATA_FILE, {"articles": []})
+
+    if RECLASSIFY:
+        # One-off: re-run classification on every article already in
+        # data/articles.json (e.g. after turning on AI classification,
+        # to fix articles that were tagged by the free keyword
+        # fallback before the ANTHROPIC_API_KEY secret was added).
+        # Does not fetch any journal sites.
+        articles = existing.get("articles", [])
+        print(f"Reclassifying {len(articles)} existing articles...")
+        changed = 0
+        for i, a in enumerate(articles, 1):
+            new_topic = classify(a["title"], a.get("snippet", ""), topics)
+            if new_topic != a.get("topic"):
+                changed += 1
+            a["topic"] = new_topic
+            if i % 20 == 0:
+                print(f"  {i}/{len(articles)}...")
+        print(f"Done. {changed} article(s) got a different topic.")
+        output = {
+            "generated_at": datetime.datetime.utcnow().isoformat() + "Z",
+            "articles": articles,
+        }
+        if DRY_RUN:
+            print("[dry run] not writing data/articles.json")
+        else:
+            with open(DATA_FILE, "w", encoding="utf-8") as f:
+                json.dump(output, f, indent=2, ensure_ascii=False)
+            print(f"Wrote {DATA_FILE}")
+        return
+
     existing_urls = {a["url"] for a in existing.get("articles", []) if a.get("url")}
 
     new_articles = []
