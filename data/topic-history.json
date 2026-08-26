@@ -1,3 +1,23 @@
 {
-  "snapshots": []
+  "snapshots": [
+    {
+      "date": "2026-08-26",
+      "counts": {
+        "Constitutional Law": 21,
+        "Administrative & Regulatory Law": 7,
+        "Criminal Law & Procedure": 21,
+        "Civil Procedure & Federal Courts": 14,
+        "Corporate, Securities & Business Law": 13,
+        "Law & Economics / Empirical Legal Studies": 7,
+        "International & Comparative Law": 4,
+        "Intellectual Property & Technology Law": 14,
+        "Environmental & Energy Law": 5,
+        "Tax Law": 7,
+        "Labor & Employment Law": 10,
+        "Race, Law & Society": 10,
+        "Health & Family Law": 6,
+        "Legal Theory & Jurisprudence": 46
+      }
+    }
+  ]
 }
