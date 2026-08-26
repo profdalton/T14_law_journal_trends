@@ -54,10 +54,9 @@ product:**
 
 1. Run it locally to see what's working:
    ```
-   cd [WORKING DIRECTORY]
    cd scraper
-   pip3 install -r requirements.txt
-   python3 scrape.py --dry-run
+   pip install -r requirements.txt
+   python scrape.py --dry-run
    ```
 2. It prints, per journal, how many article links it found. Journals
    showing `0` need attention — open that journal's listing page,
@@ -88,6 +87,17 @@ something's wrong with the setup.
   top.
 - **How far back articles stay listed** — `PRUNE_AFTER_DAYS` in
   `scrape.py` (default 120 days / ~4 months).
+- **Article type** — where a journal's site exposes it (currently
+  Yale, Georgetown, Michigan, and Penn), each article is tagged with
+  its type (Article, Note, Essay, Comment, Review, etc.) in the
+  `article_type` field, shown as a small badge on the card and
+  available as a filter and export column. Left blank for journals
+  whose listing pages don't expose this cleanly — extend the
+  relevant `extract_*` function in `scrape.py` to add more.
+- **Export** — the "Export CSV" / "Export JSON" buttons above the
+  article list export whatever's currently filtered (not necessarily
+  everything), so you can narrow to a topic or journal first, then
+  export just that subset for external analysis.
 
 ## File map
 
