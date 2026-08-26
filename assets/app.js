@@ -33,6 +33,9 @@ async function init() {
   document.getElementById("searchBox").addEventListener("input", render);
   document.getElementById("journalFilter").addEventListener("change", render);
   document.getElementById("topicFilter").addEventListener("change", render);
+  document.getElementById("typeFilter").addEventListener("change", render);
+  document.getElementById("exportCsv").addEventListener("click", exportCsv);
+  document.getElementById("exportJson").addEventListener("click", exportJson);
 }
 
 function formatDate(iso) {
@@ -57,6 +60,18 @@ function populateFilters() {
     opt.value = t; opt.textContent = t;
     topicSel.appendChild(opt);
   });
+
+  const types = [...new Set(ALL_ARTICLES.map(a => a.article_type).filter(Boolean))].sort();
+  const typeSel = document.getElementById("typeFilter");
+  if (types.length === 0) {
+    typeSel.hidden = true;
+  } else {
+    types.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t; opt.textContent = t;
+      typeSel.appendChild(opt);
+    });
+  }
 }
 
 function renderTicker() {
@@ -164,20 +179,27 @@ function renderTrendChart(snapshots) {
   });
 }
 
-function render() {
+function getFilteredArticles() {
   const q = document.getElementById("searchBox").value.trim().toLowerCase();
   const journal = document.getElementById("journalFilter").value;
   const topicFilter = document.getElementById("topicFilter").value;
+  const typeFilter = document.getElementById("typeFilter").value;
 
-  const filtered = ALL_ARTICLES.filter(a => {
+  return ALL_ARTICLES.filter(a => {
     if (journal && a.journal !== journal) return false;
     if (topicFilter && a.topic !== topicFilter) return false;
+    if (typeFilter && a.article_type !== typeFilter) return false;
     if (q) {
       const hay = (a.title + " " + a.authors + " " + a.journal).toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
   });
+}
+
+function render() {
+  const topicFilter = document.getElementById("topicFilter").value;
+  const filtered = getFilteredArticles();
 
   document.getElementById("resultCount").textContent =
     `${filtered.length} article${filtered.length === 1 ? "" : "s"}`;
@@ -230,11 +252,45 @@ function articleCard(a) {
     : escapeHtml(a.title);
   card.innerHTML = `
     <div class="article-meta"><span>${escapeHtml(a.journal)}</span><span>${escapeHtml(a.date || "")}</span></div>
+    ${a.article_type ? `<span class="article-type-badge">${escapeHtml(a.article_type)}</span>` : ""}
     <h3>${titleHtml}</h3>
     ${a.authors ? `<p class="article-authors">${escapeHtml(a.authors)}</p>` : ""}
     ${a.snippet ? `<p class="article-snippet">${escapeHtml(a.snippet)}</p>` : ""}
   `;
   return card;
+}
+
+function downloadBlob(content, filename, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function csvEscape(val) {
+  const s = String(val ?? "");
+  if (/[",\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+  return s;
+}
+
+function exportCsv() {
+  const rows = getFilteredArticles();
+  const cols = ["title", "authors", "journal", "topic", "article_type", "date", "url"];
+  const lines = [cols.join(",")];
+  rows.forEach(a => {
+    lines.push(cols.map(c => csvEscape(a[c])).join(","));
+  });
+  downloadBlob(lines.join("\n"), "de-novo-articles.csv", "text/csv");
+}
+
+function exportJson() {
+  const rows = getFilteredArticles();
+  downloadBlob(JSON.stringify(rows, null, 2), "de-novo-articles.json", "application/json");
 }
 
 function escapeHtml(str) {

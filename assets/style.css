@@ -218,6 +218,29 @@ a { color: inherit; }
   margin-left: auto;
 }
 
+.export-buttons {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.export-btn {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 /* ---------- Topic sections ---------- */
 
 main { max-width: 1040px; margin: 0 auto; padding: 1rem 1.5rem 4rem; }
@@ -284,6 +307,18 @@ main { max-width: 1040px; margin: 0 auto; padding: 1rem 1.5rem 4rem; }
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
+}
+
+.article-type-badge {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
+  align-self: flex-start;
 }
 
 .article-card h3 {
