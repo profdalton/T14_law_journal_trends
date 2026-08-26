@@ -1,4 +1,4 @@
-# The Docket — T14 Law Review Trend Tracker
+# De Novo — T14 Law Review Trend Tracker
 
 A static site (GitHub Pages) that shows what the fourteen flagship
 law reviews are publishing, grouped by topic, refreshed weekly by a
@@ -54,10 +54,9 @@ product:**
 
 1. Run it locally to see what's working:
    ```
-   cd [WORKING DIRECTORY]
    cd scraper
-   pip3 install -r requirements.txt
-   python3 scrape.py --dry-run
+   pip install -r requirements.txt
+   python scrape.py --dry-run
    ```
 2. It prints, per journal, how many article links it found. Journals
    showing `0` need attention — open that journal's listing page,
@@ -92,13 +91,29 @@ something's wrong with the setup.
 ## File map
 
 ```
-index.html              the page itself
-assets/style.css         all design tokens + styles
-assets/app.js            loads data/*.json, renders filters + cards
-data/topics.json         topic taxonomy (ordered)
-data/articles.json       the article database (scraper writes here)
-scraper/journals.py      journal list + listing-page URLs
-scraper/classify.py      topic classification (AI or keyword)
-scraper/scrape.py        the scan itself
-.github/workflows/       the weekly scheduled run
+index.html               the page itself
+assets/style.css          all design tokens + styles
+assets/app.js             loads data/*.json, renders filters + cards + trend chart
+data/topics.json          topic taxonomy (ordered)
+data/articles.json        the article database (scraper writes here)
+data/topic-history.json   weekly topic-count snapshots, powers the trend chart
+                           (one entry added automatically per real scrape.py run)
+scraper/journals.py       journal list + listing-page URLs
+scraper/classify.py       topic classification (AI or keyword)
+scraper/scrape.py         the scan itself (--dry-run, --reclassify flags)
+.github/workflows/        the weekly scheduled run
 ```
+
+## Re-classifying existing articles
+
+If you turn on AI classification (`ANTHROPIC_API_KEY`) after articles are
+already in `data/articles.json`, they'll keep whatever topic the keyword
+fallback gave them until re-scanned. To re-tag everything already in the
+database without re-scraping any journal sites:
+
+```
+ANTHROPIC_API_KEY=your-key-here python3 scrape.py --reclassify
+```
+
+This does not touch `data/topic-history.json` or add a new weekly
+snapshot — it's a one-off correction, not a scan.
