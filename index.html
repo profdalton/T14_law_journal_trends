@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -23,8 +24,24 @@
 
 <section class="ticker-section" aria-label="This week's topic volume">
   <div class="ticker-inner">
-    <p class="ticker-label">This Week&rsquo;s Docket &mdash; articles by subject</p>
+    <p class="ticker-label">This Week&rsquo;s Scholarship &mdash; Articles by Subject</p>
     <div class="ticker" id="ticker"></div>
+  </div>
+</section>
+
+<section class="trend-section" aria-label="Topic trends over time">
+  <div class="trend-inner">
+    <div class="trend-header">
+      <p class="trend-label">Topic Trends &mdash; Weekly Scan History</p>
+      <p class="trend-sublabel" id="trendSublabel"></p>
+    </div>
+    <div class="trend-chart-wrap">
+      <canvas id="trendChart" height="90"></canvas>
+    </div>
+    <p class="trend-empty" id="trendEmpty" hidden>
+      Trend history builds up automatically as the weekly scan runs &mdash;
+      check back after a few weeks to see topic momentum here.
+    </p>
   </div>
 </section>
 
