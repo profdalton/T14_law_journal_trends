@@ -54,10 +54,9 @@ product:**
 
 1. Run it locally to see what's working:
    ```
-   cd [WORKING DIRECTORY]
    cd scraper
-   pip3 install -r requirements.txt
-   python3 scrape.py --dry-run
+   pip install -r requirements.txt
+   python scrape.py --dry-run
    ```
 2. It prints, per journal, how many article links it found. Journals
    showing `0` need attention — open that journal's listing page,

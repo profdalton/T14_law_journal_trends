@@ -58,11 +58,23 @@ def extract_generic(html, base_url):
         "h2.post-title a", ".post-title a",
         "article h2 a", "article h3 a",
         ".article-title a", ".card-title a",
+        "a[rel='bookmark']",  # Drupal-style sites (e.g. UChicago Law Review):
+                              # <a rel="bookmark"><span class="field--name-title">Title</span></a>
+        "a.article-link",  # card-style sites (e.g. Penn Law Review):
+                           # <a class="article-link"><h2>Title</h2><p>author</p>...</a>
+        "h4 a",  # e.g. Virginia Law Review's article feed
+        "h1.blog-title a",  # e.g. California Law Review (Squarespace-style)
+        "h2.IssueMini-title a",  # e.g. Northwestern University Law Review
+        "p a:has(strong)",  # e.g. Georgetown Law Journal: <p><a><strong>Title</strong></a></p>
     ]
     for sel in selectors:
         for a in soup.select(sel):
             href = a.get("href")
-            title = a.get_text(strip=True)
+            # If the link wraps a heading plus other content (author,
+            # abstract, tags), use just the heading's text as the
+            # title instead of the whole link's (mixed) text.
+            heading = a.find(["h1", "h2", "h3", "h4"])
+            title = heading.get_text(strip=True) if heading else a.get_text(strip=True)
             if not href or not title or len(title) < 8:
                 continue
             url = urljoin(base_url, href)
@@ -74,13 +86,194 @@ def extract_generic(html, base_url):
     return candidates
 
 
+def extract_yale(html, base_url):
+    """
+    Yale's issue page dumps every volume back to 2000 into one page
+    (all hidden behind an accordion, but present in the raw HTML).
+    Scope extraction to just the first volume_wrapper -- the current
+    volume -- instead of grabbing the entire 25-year archive.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    first_volume = soup.select_one(".volume_wrapper")
+    if not first_volume:
+        return []
+    candidates = []
+    seen_urls = set()
+    for a in first_volume.select("h3.leading-relaxed a"):
+        href = a.get("href")
+        title = a.get_text(strip=True)
+        if not href or not title or len(title) < 8:
+            continue
+        url = urljoin(base_url, href)
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+        candidates.append({"title": title, "url": url})
+    return candidates
+
+
+def extract_nyu(base_url):
+    """
+    NYU's /issues/ page only lists links to each volume/issue (e.g.
+    /issues/volume-101-number-3/) -- it has no article titles itself.
+    Follow the first (most recent) issue link, then extract from
+    that page, where articles match the generic 'article h3 a' selector.
+    """
+    try:
+        resp = requests.get(base_url, headers=HEADERS, timeout=20)
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"  [nyu] fetch failed: {e}")
+        return []
+    soup = BeautifulSoup(resp.text, "html.parser")
+    issue_url = None
+    for a in soup.select("a[href]"):
+        href = a["href"]
+        if re.search(r"volume-\d+-number-\d+/?$", href):
+            issue_url = urljoin(base_url, href)
+            break
+    if not issue_url:
+        print("  [nyu] couldn't find a current-issue link on the index page")
+        return []
+    try:
+        resp2 = requests.get(issue_url, headers=HEADERS, timeout=20)
+        resp2.raise_for_status()
+    except Exception as e:
+        print(f"  [nyu] fetch of issue page failed: {e}")
+        return []
+    return extract_generic(resp2.text, issue_url)
+
+
+def extract_virginia(html, base_url):
+    """
+    Virginia Law Review's /print/ page uses <h4><a>Title</a></h4>
+    for every article in its entire multi-decade archive, not just
+    the current volume -- so the generic 'h4 a' selector way
+    overshoots (hundreds of hits). Scope to just the entries that
+    have the accompanying '.article-feed-author' marker immediately
+    after them, and cap defensively in case that's still broad.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    candidates = []
+    seen_urls = set()
+    for marker in soup.select(".article-feed-author"):
+        h4 = None
+        for sib in marker.find_previous_siblings():
+            if sib.name == "h4":
+                h4 = sib
+                break
+        if not h4:
+            continue
+        a = h4.find("a")
+        if not a:
+            continue
+        href = a.get("href")
+        title = a.get_text(strip=True)
+        if not href or not title or len(title) < 8:
+            continue
+        url = urljoin(base_url, href)
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+        candidates.append({"title": title, "url": url})
+    return candidates[:30]  # safety cap: no current volume should exceed this
+
+
+def extract_michigan(base_url):
+    """
+    Michigan's /archive/ page links to individual issue pages
+    (/volume/volNNN-issN/) rather than listing articles directly.
+    Follow the first (most recent) issue link, then extract titles
+    from that page's '.box__title a' pattern.
+    """
+    try:
+        resp = requests.get(base_url, headers=HEADERS, timeout=20)
+        resp.raise_for_status()
+    except Exception as e:
+        print(f"  [michigan] fetch failed: {e}")
+        return []
+    soup = BeautifulSoup(resp.text, "html.parser")
+    issue_url = None
+    for a in soup.select("a[href]"):
+        href = a["href"]
+        if re.search(r"/volume/vol\d+-iss\d+/?$", href):
+            issue_url = urljoin(base_url, href)
+            break
+    # If /archive/ itself redirected straight to an issue page (as it
+    # did when checked manually), the page we already fetched IS the
+    # issue page -- extract directly from it instead of failing.
+    target_html = resp.text
+    target_url = base_url
+    if issue_url and issue_url != base_url:
+        try:
+            resp2 = requests.get(issue_url, headers=HEADERS, timeout=20)
+            resp2.raise_for_status()
+            target_html, target_url = resp2.text, issue_url
+        except Exception as e:
+            print(f"  [michigan] fetch of issue page failed: {e}")
+    soup2 = BeautifulSoup(target_html, "html.parser")
+    candidates = []
+    seen_urls = set()
+    for a in soup2.select(".box__title a"):
+        href = a.get("href")
+        title = a.get_text(strip=True)
+        if not href or not title or len(title) < 8:
+            continue
+        url = urljoin(target_url, href)
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+        candidates.append({"title": title, "url": url})
+    return candidates
+
+
+def extract_duke(html, base_url):
+    """
+    Duke Law Journal's current-issue page uses a bare <h4>Title</h4>
+    with no link inside it -- the actual link (to a PDF citation) is
+    in the next <p> sibling instead. Stitch the two together.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    candidates = []
+    seen_urls = set()
+    for h4 in soup.find_all("h4"):
+        title = h4.get_text(strip=True)
+        if not title or len(title) < 8:
+            continue
+        sib = h4.find_next_sibling("p")
+        if not sib:
+            continue
+        a = sib.find("a")
+        if not a:
+            continue
+        href = a.get("href")
+        if not href:
+            continue
+        url = urljoin(base_url, href)
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+        candidates.append({"title": title, "url": url})
+    return candidates
+
+
 def fetch_journal(journal):
+    if journal["slug"] == "nyu":
+        return extract_nyu(journal["url"])
+    if journal["slug"] == "michigan":
+        return extract_michigan(journal["url"])
     try:
         resp = requests.get(journal["url"], headers=HEADERS, timeout=20)
         resp.raise_for_status()
     except Exception as e:
         print(f"  [{journal['slug']}] fetch failed: {e}")
         return []
+    if journal["slug"] == "yale":
+        return extract_yale(resp.text, journal["url"])
+    if journal["slug"] == "virginia":
+        return extract_virginia(resp.text, journal["url"])
+    if journal["slug"] == "duke":
+        return extract_duke(resp.text, journal["url"])
     return extract_generic(resp.text, journal["url"])
 
 
