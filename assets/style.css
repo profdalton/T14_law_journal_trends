@@ -330,10 +330,12 @@ main { max-width: 1040px; margin: 0 auto; padding: 1rem 1.5rem 4rem; }
 
 .site-footer p {
   max-width: 640px;
-  margin: 0 auto;
+  margin: 0 auto 0.6rem;
   font-size: 0.78rem;
   color: var(--text-muted);
 }
+
+.site-footer p:last-child { margin-bottom: 0; }
 
 .site-footer a { color: var(--accent); }
 
