@@ -27,9 +27,11 @@ from classify import classify
 ROOT = Path(__file__).parent.parent
 DATA_FILE = ROOT / "data" / "articles.json"
 TOPICS_FILE = ROOT / "data" / "topics.json"
+HISTORY_FILE = ROOT / "data" / "topic-history.json"
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; TheDocketBot/1.0; +https://github.com/)"}
 PRUNE_AFTER_DAYS = 120  # drop articles older than ~4 months to keep the site current
+KEEP_SNAPSHOTS = 26  # ~6 months of weekly topic-history snapshots
 DRY_RUN = "--dry-run" in sys.argv
 RECLASSIFY = "--reclassify" in sys.argv
 
@@ -365,6 +367,29 @@ def main():
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump(output, f, indent=2, ensure_ascii=False)
         print(f"Wrote {DATA_FILE}")
+        record_snapshot(merged, topics)
+
+
+def record_snapshot(articles, topics):
+    """
+    Append this run's topic counts to data/topic-history.json, so the
+    site can chart how topic volume shifts week to week. One entry
+    per real (non-dry-run) scrape.py run -- if the scheduled Action
+    runs weekly, this naturally builds a weekly time series.
+    """
+    history = load_json(HISTORY_FILE, {"snapshots": []})
+    counts = {t: 0 for t in topics}
+    for a in articles:
+        if a.get("topic") in counts:
+            counts[a["topic"]] += 1
+    history["snapshots"].append({
+        "date": datetime.date.today().isoformat(),
+        "counts": counts,
+    })
+    history["snapshots"] = history["snapshots"][-KEEP_SNAPSHOTS:]
+    with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+        json.dump(history, f, indent=2, ensure_ascii=False)
+    print(f"Recorded topic snapshot ({len(history['snapshots'])} total). Wrote {HISTORY_FILE}")
 
 
 if __name__ == "__main__":
