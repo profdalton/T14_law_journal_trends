@@ -85,25 +85,23 @@ a { color: inherit; }
 }
 
 .ticker {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.9rem 1.25rem;
 }
 
-.ticker-item {
-  flex: 0 0 auto;
-  min-width: 128px;
-}
+.ticker-item { min-width: 0; }
 
 .ticker-item .t-name {
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   color: #d8d0d0;
-  white-space: nowrap;
-  margin-bottom: 0.3rem;
+  white-space: normal;
+  line-height: 1.25;
+  margin-bottom: 0.35rem;
+  min-height: 2.2em;
 }
 
 .ticker-bar-track {
@@ -124,6 +122,52 @@ a { color: inherit; }
   font-size: 0.72rem;
   color: var(--bg);
   margin-top: 0.3rem;
+}
+
+/* ---------- Trend chart ---------- */
+
+.trend-section {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem;
+}
+
+.trend-inner { max-width: 1040px; margin: 0 auto; }
+
+.trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.trend-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.trend-sublabel {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.trend-chart-wrap { position: relative; height: 260px; }
+
+.trend-empty {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 2rem 0;
+  margin: 0;
 }
 
 /* ---------- Controls ---------- */

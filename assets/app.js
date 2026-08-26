@@ -10,6 +10,14 @@ async function init() {
   ]);
   const articlesData = await articlesRes.json();
   const topicsData = await topicsRes.json();
+  let historySnapshots = [];
+  try {
+    const historyRes = await fetch("data/topic-history.json");
+    const historyData = await historyRes.json();
+    historySnapshots = historyData.snapshots || [];
+  } catch (e) {
+    console.warn("Topic history unavailable yet:", e);
+  }
 
   ALL_ARTICLES = articlesData.articles || [];
   TOPIC_ORDER = topicsData.topics || [];
@@ -19,6 +27,7 @@ async function init() {
 
   populateFilters();
   renderTicker();
+  renderTrendChart(historySnapshots);
   render();
 
   document.getElementById("searchBox").addEventListener("input", render);
@@ -67,6 +76,92 @@ function renderTicker() {
         <div class="t-count">${c}</div>
       </div>`;
   }).join("");
+}
+
+const TREND_COLORS = [
+  "#ed3500", "#3c3333", "#8a6d3b", "#2f6b57", "#2f5d8a", "#a13d63", "#6b8e23"
+];
+
+function renderTrendChart(snapshots) {
+  const wrap = document.querySelector(".trend-chart-wrap");
+  const canvas = document.getElementById("trendChart");
+  const emptyMsg = document.getElementById("trendEmpty");
+  const sublabel = document.getElementById("trendSublabel");
+
+  if (snapshots.length < 2) {
+    wrap.hidden = true;
+    emptyMsg.hidden = false;
+    sublabel.textContent = snapshots.length === 1 ? "1 week recorded so far" : "";
+    return;
+  }
+
+  sublabel.textContent = `${snapshots.length} weeks recorded`;
+
+  // Pick the topics with the highest total volume across all
+  // recorded weeks, so the chart stays readable instead of showing
+  // all 14 lines at once.
+  const totals = {};
+  snapshots.forEach(s => {
+    Object.entries(s.counts || {}).forEach(([topic, count]) => {
+      totals[topic] = (totals[topic] || 0) + count;
+    });
+  });
+  const topTopics = Object.entries(totals)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([topic]) => topic);
+
+  const labels = snapshots.map(s => {
+    const d = new Date(s.date);
+    return isNaN(d) ? s.date : d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  });
+
+  const datasets = topTopics.map((topic, i) => ({
+    label: topic,
+    data: snapshots.map(s => (s.counts || {})[topic] || 0),
+    borderColor: TREND_COLORS[i % TREND_COLORS.length],
+    backgroundColor: TREND_COLORS[i % TREND_COLORS.length],
+    borderWidth: 2,
+    pointRadius: 2.5,
+    tension: 0.25,
+    fill: false,
+  }));
+
+  new Chart(canvas.getContext("2d"), {
+    type: "line",
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            color: "#3c3333",
+            font: { family: "IBM Plex Sans", size: 11 },
+            boxWidth: 12,
+            padding: 12,
+          },
+        },
+        tooltip: {
+          titleFont: { family: "IBM Plex Mono" },
+          bodyFont: { family: "IBM Plex Sans" },
+        },
+      },
+      scales: {
+        x: {
+          ticks: { color: "#7a6f6f", font: { family: "IBM Plex Mono", size: 10 } },
+          grid: { color: "#ddd5c8" },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { color: "#7a6f6f", font: { family: "IBM Plex Mono", size: 10 }, precision: 0 },
+          grid: { color: "#ddd5c8" },
+        },
+      },
+    },
+  });
 }
 
 function render() {
