@@ -84,7 +84,24 @@ def extract_generic(html, base_url):
             if url in seen_urls:
                 continue
             seen_urls.add(url)
-            candidates.append({"title": title, "url": url})
+            entry = {"title": title, "url": url}
+            # Penn's card layout tags each article with a type/format
+            # in .article-taxes (e.g. "Article", "Print", "Corporate
+            # Law") -- the first span is the piece type.
+            taxes = a.select_one(".article-taxes span")
+            if taxes:
+                entry["type"] = taxes.get_text(strip=True)
+            # Georgetown groups articles under <h3>Section</h3>
+            # headers (Foreword, Articles, Essays, Note) -- walk
+            # backward from the containing <p> to find the nearest one.
+            if sel == "p a:has(strong)":
+                p_tag = a.find_parent("p")
+                if p_tag:
+                    for sib in p_tag.find_previous_siblings():
+                        if sib.name == "h3":
+                            entry["type"] = sib.get_text(strip=True)
+                            break
+            candidates.append(entry)
 
     return candidates
 
@@ -111,7 +128,15 @@ def extract_yale(html, base_url):
         if url in seen_urls:
             continue
         seen_urls.add(url)
-        candidates.append({"title": title, "url": url})
+        entry = {"title": title, "url": url}
+        # Each article sits in a .toc_item div with a preceding <h4>
+        # category label (Article, Note, Comment, Review, etc.).
+        toc_item = a.find_parent(class_="toc_item")
+        if toc_item:
+            h4 = toc_item.find("h4")
+            if h4:
+                entry["type"] = h4.get_text(strip=True)
+        candidates.append(entry)
     return candidates
 
 
@@ -226,7 +251,15 @@ def extract_michigan(base_url):
         if url in seen_urls:
             continue
         seen_urls.add(url)
-        candidates.append({"title": title, "url": url})
+        entry = {"title": title, "url": url}
+        # Each article's card has a .box__tag label (e.g. "Articles &
+        # Essays") in the same .box__content block as the title.
+        box_content = a.find_parent(class_="box__content")
+        if box_content:
+            tag = box_content.select_one(".box__tag")
+            if tag:
+                entry["type"] = tag.get_text(strip=True)
+        candidates.append(entry)
     return candidates
 
 
@@ -346,6 +379,7 @@ def main():
                 "url": item["url"],
                 "date": datetime.date.today().isoformat(),
                 "snippet": "",
+                "article_type": item.get("type", ""),
             })
             existing_urls.add(item["url"])
 
