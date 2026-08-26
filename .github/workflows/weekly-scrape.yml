@@ -31,6 +31,6 @@ jobs:
         run: |
           git config user.name "docket-bot"
           git config user.email "actions@github.com"
-          git add data/articles.json
+          git add data/articles.json data/topic-history.json
           git diff --quiet --cached || git commit -m "Weekly scan: $(date -u +'%Y-%m-%d')"
           git push
