@@ -27,7 +27,12 @@ async function init() {
 
   populateFilters();
   renderTicker();
-  renderTrendChart(historySnapshots);
+  try {
+    renderTrendChart(historySnapshots);
+  } catch (e) {
+    // Never let the trend chart take down the rest of the page.
+    console.error("Trend chart failed to render:", e);
+  }
   render();
 
   document.getElementById("searchBox").addEventListener("input", render);
@@ -102,6 +107,20 @@ function renderTrendChart(snapshots) {
   const canvas = document.getElementById("trendChart");
   const emptyMsg = document.getElementById("trendEmpty");
   const sublabel = document.getElementById("trendSublabel");
+
+  if (typeof Chart === "undefined") {
+    // Chart.js failed to load (CDN blocked/down/ad-blocker/stale
+    // upload missing the <script> tag). Fail soft instead of
+    // throwing, so the rest of the page (articles, filters, search)
+    // still works even if the trend chart can't render.
+    console.warn("Chart.js not loaded -- skipping trend chart.");
+    if (wrap) wrap.hidden = true;
+    if (emptyMsg) {
+      emptyMsg.hidden = false;
+      emptyMsg.textContent = "Trend chart couldn't load (a required script didn't load).";
+    }
+    return;
+  }
 
   if (snapshots.length < 2) {
     wrap.hidden = true;
