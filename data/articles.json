@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T06:08:26.566374Z",
+  "generated_at": "2026-09-21T06:07:58.232278Z",
   "articles": [
     {
       "title": "Introducing the Atkins Feature",
@@ -2083,6 +2083,46 @@
       "topic": "Constitutional Law",
       "url": "https://virginialawreview.org/articles/the-indian-treaty-power/",
       "date": "2026-09-14",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Extradition in the Early Republic: International Law and Constitutional Authority",
+      "authors": "",
+      "journal": "University of Chicago Law Review",
+      "topic": "International & Comparative Law",
+      "url": "https://lawreview.uchicago.edu/index%2Ephp/print-archive/extradition-early-republic-international-law-and-constitutional-authority",
+      "date": "2026-09-21",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Administrative Acquiescence: An Analysis of Nonadverse Litigation Involving Administrative Agencies",
+      "authors": "",
+      "journal": "University of Chicago Law Review",
+      "topic": "Administrative & Regulatory Law",
+      "url": "https://lawreview.uchicago.edu/index%2Ephp/print-archive/administrative-acquiescence-analysis-nonadverse-litigation-involving-administrative",
+      "date": "2026-09-21",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Enforcing the First Amendment in an Era of Jawboning",
+      "authors": "",
+      "journal": "University of Chicago Law Review",
+      "topic": "Constitutional Law",
+      "url": "https://lawreview.uchicago.edu/index%2Ephp/print-archive/enforcing-first-amendment-era-jawboning",
+      "date": "2026-09-21",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "When a Mass Resignation Becomes a Merger: Rethinking Asset Acquisitions for the AI Era",
+      "authors": "",
+      "journal": "University of Chicago Law Review",
+      "topic": "Corporate, Securities & Business Law",
+      "url": "https://lawreview.uchicago.edu/index%2ephp/print-archive/when-mass-resignation-becomes-merger-rethinking-asset-acquisitions-ai-era",
+      "date": "2026-09-21",
       "snippet": "",
       "article_type": ""
     }
