@@ -113,6 +113,25 @@
         "Health & Family Law": 10,
         "Legal Theory & Jurisprudence": 61
       }
+    },
+    {
+      "date": "2026-10-05",
+      "counts": {
+        "Constitutional Law": 30,
+        "Administrative & Regulatory Law": 9,
+        "Criminal Law & Procedure": 29,
+        "Civil Procedure & Federal Courts": 17,
+        "Corporate, Securities & Business Law": 15,
+        "Law & Economics / Empirical Legal Studies": 8,
+        "International & Comparative Law": 6,
+        "Intellectual Property & Technology Law": 15,
+        "Environmental & Energy Law": 7,
+        "Tax Law": 7,
+        "Labor & Employment Law": 12,
+        "Race, Law & Society": 12,
+        "Health & Family Law": 10,
+        "Legal Theory & Jurisprudence": 65
+      }
     }
   ]
 }
