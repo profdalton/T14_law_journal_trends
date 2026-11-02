@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T12:01:42.136629Z",
+  "generated_at": "2026-11-02T14:25:29.136009Z",
   "articles": [
     {
       "title": "Introducing the Atkins Feature",
@@ -2483,6 +2483,266 @@
       "topic": "Criminal Law & Procedure",
       "url": "https://scholarship.law.duke.edu/dlj/vol76/iss2/4",
       "date": "2026-10-26",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "General Law Revivalism and the Problem of 1938",
+      "authors": "",
+      "journal": "Yale Law Journal",
+      "topic": "Legal Theory & Jurisprudence",
+      "url": "https://yalelawjournal.org/article/general-law-revivalism-and-the-problem-of-1938",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": "Article"
+    },
+    {
+      "title": "Vacatur Within the Appellate Model of Judicial Review",
+      "authors": "",
+      "journal": "Yale Law Journal",
+      "topic": "Civil Procedure & Federal Courts",
+      "url": "https://yalelawjournal.org/article/vacatur-within-the-appellate-model-of-judicial-review",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": "Article"
+    },
+    {
+      "title": "Exigency and Equity: A First-Principles Solution for the Supreme Court’s Emergency Docket",
+      "authors": "",
+      "journal": "Yale Law Journal",
+      "topic": "Civil Procedure & Federal Courts",
+      "url": "https://yalelawjournal.org/lecture/exigency-and-equity-a-first-principles-solution-for-the-supreme-courts-emergency-docket",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": "Lecture"
+    },
+    {
+      "title": "The Power to Impose Method",
+      "authors": "",
+      "journal": "Yale Law Journal",
+      "topic": "Legal Theory & Jurisprudence",
+      "url": "https://yalelawjournal.org/feature/the-power-to-impose-method",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": "Feature"
+    },
+    {
+      "title": "Reparative Action: Admissions Preferences AfterSFFA",
+      "authors": "",
+      "journal": "Yale Law Journal",
+      "topic": "Race, Law & Society",
+      "url": "https://yalelawjournal.org/note/reparative-action-admissions-preferences-after-sffa",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": "Note"
+    },
+    {
+      "title": "Second-Order Constitutional Theory",
+      "authors": "",
+      "journal": "University of Chicago Law Review",
+      "topic": "Legal Theory & Jurisprudence",
+      "url": "https://lawreview.uchicago.edu/index%2Ephp/print-archive/second-order-constitutional-theory",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Unraveling Death Row’s Torture Paradox:  A State-Informed Standard for Eighth Amendment Violations on Death Row",
+      "authors": "",
+      "journal": "University of Chicago Law Review",
+      "topic": "Criminal Law & Procedure",
+      "url": "https://lawreview.uchicago.edu/index%2Ephp/print-archive/unraveling-death-rows-torture-paradox-state-informed-standard-eighth-amendment",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Searching for Standing: Benefit-of-the-Bargain Theory of Injury",
+      "authors": "",
+      "journal": "University of Chicago Law Review",
+      "topic": "Civil Procedure & Federal Courts",
+      "url": "https://lawreview.uchicago.edu/index%2Ephp/print-archive/searching-standing-benefit-bargain-theory-injury",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "REINING IN RUNAWAY RECRUITING",
+      "authors": "",
+      "journal": "Columbia Law Review",
+      "topic": "Labor & Employment Law",
+      "url": "https://columbialawreview.org/content/reining-in-runaway-recruiting/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "OVERLOOKED AND OVERBURDENED: UNINCORPORATED STATUS AND THE FINANCIAL INCENTIVES OF ENVIRONMENTAL INJUSTICE",
+      "authors": "",
+      "journal": "Columbia Law Review",
+      "topic": "Law & Economics / Empirical Legal Studies",
+      "url": "https://columbialawreview.org/content/overlooked-and-overburdened-unincorporated-status-and-the-financial-incentives-of-environmental-injustice/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "QUASI-JUDICIAL: A HISTORY AND TRADITION",
+      "authors": "",
+      "journal": "Columbia Law Review",
+      "topic": "Legal Theory & Jurisprudence",
+      "url": "https://columbialawreview.org/content/quasi-judicial-a-history-and-tradition/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "BEYOND THE CURRICULUM: FREE EXERCISE LIMITS ON PUBLIC SCHOOL REGULATION AFTERMAHMOUD V.  TAYLOR",
+      "authors": "",
+      "journal": "Columbia Law Review",
+      "topic": "Constitutional Law",
+      "url": "https://columbialawreview.org/content/beyond-the-curriculum-free-exercise-limits-on-public-school-regulation-after-mahmoud-v-taylor/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "LEGITIMACY LAUNDERING",
+      "authors": "",
+      "journal": "Columbia Law Review",
+      "topic": "Legal Theory & Jurisprudence",
+      "url": "https://columbialawreview.org/content/legitimacy-laundering/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "The Equity Docket",
+      "authors": "",
+      "journal": "NYU Law Review",
+      "topic": "Civil Procedure & Federal Courts",
+      "url": "https://nyulawreview.org/issues/volume-101-number-4/the-equity-docket/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Participatory Liberatory Resentencing",
+      "authors": "",
+      "journal": "NYU Law Review",
+      "topic": "Criminal Law & Procedure",
+      "url": "https://nyulawreview.org/issues/volume-101-number-4/participatory-liberatory-resentencing/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Directly Constitutional Statutory Interpretation",
+      "authors": "",
+      "journal": "NYU Law Review",
+      "topic": "Legal Theory & Jurisprudence",
+      "url": "https://nyulawreview.org/issues/volume-101-number-4/directly-constitutional-statutory-interpretation/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "State Constitutional Amendments and the Dynamics of Democratic Change",
+      "authors": "",
+      "journal": "NYU Law Review",
+      "topic": "Constitutional Law",
+      "url": "https://nyulawreview.org/issues/volume-101-number-4/state-constitutional-amendments-and-the-dynamics-of-democratic-change/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Using Claim Resolution Facilities to Resuscitate Mass Tort Justice",
+      "authors": "",
+      "journal": "NYU Law Review",
+      "topic": "Civil Procedure & Federal Courts",
+      "url": "https://nyulawreview.org/issues/volume-101-number-4/using-claim-resolution-facilities-to-resuscitate-mass-tort-justice/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Janus’s Next Target? Defending Private Sector Exclusive Representation Under the First Amendment",
+      "authors": "",
+      "journal": "NYU Law Review",
+      "topic": "Labor & Employment Law",
+      "url": "https://nyulawreview.org/issues/volume-101-number-4/januss-next-target-defending-private-sector-exclusive-representation-under-the-first-amendment/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Simplifying Personal Jurisdiction in Complex Litigation",
+      "authors": "",
+      "journal": "NYU Law Review",
+      "topic": "Civil Procedure & Federal Courts",
+      "url": "https://nyulawreview.org/issues/volume-101-number-4/simplifying-personal-jurisdiction-in-complex-litigation/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Oversight as Attention",
+      "authors": "",
+      "journal": "NYU Law Review",
+      "topic": "Administrative & Regulatory Law",
+      "url": "https://nyulawreview.org/issues/volume-101-number-4/oversight-as-attention/",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "“Systemic Breakdown”: Obscuring Crisis in Speedy Trial Right Analysis",
+      "authors": "",
+      "journal": "California Law Review",
+      "topic": "Criminal Law & Procedure",
+      "url": "https://www.californialawreview.org/print/systemic-breakdown",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Speaking Freedom: Black Liberation, Abolitionism, and Substantive Justice",
+      "authors": "",
+      "journal": "California Law Review",
+      "topic": "Race, Law & Society",
+      "url": "https://www.californialawreview.org/print/speaking-freedom",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Leisure Justice",
+      "authors": "",
+      "journal": "California Law Review",
+      "topic": "Legal Theory & Jurisprudence",
+      "url": "https://www.californialawreview.org/print/leisure-justice",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Civilized Enough to Tax: Natives as Federal Income Taxpayers",
+      "authors": "",
+      "journal": "California Law Review",
+      "topic": "Race, Law & Society",
+      "url": "https://www.californialawreview.org/print/civilized-enough-to-tax",
+      "date": "2026-11-02",
+      "snippet": "",
+      "article_type": ""
+    },
+    {
+      "title": "Financial Assimilation",
+      "authors": "",
+      "journal": "California Law Review",
+      "topic": "Law & Economics / Empirical Legal Studies",
+      "url": "https://www.californialawreview.org/print/financial-assimilation",
+      "date": "2026-11-02",
       "snippet": "",
       "article_type": ""
     }
